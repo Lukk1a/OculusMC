@@ -383,6 +383,9 @@ export default function App() {
   const diskPct = stats?.diskUsagePercent !== undefined ? stats.diskUsagePercent : 28;
   const totalChunks = stats?.loadedChunks !== undefined ? stats.loadedChunks : 441;
   const totalEntities = stats?.totalEntities !== undefined ? stats.totalEntities : 38;
+  const memUsedMB = Math.round((stats?.memoryUsed || 0) / (1024 * 1024));
+  const memMaxMB = Math.round((stats?.memoryMax || 1) / (1024 * 1024)) || 4096;
+  const memPct = memMaxMB > 0 ? Math.min(100, Math.round((memUsedMB / memMaxMB) * 100)) : 0;
 
   const activePlayersList = detailedPlayers.length > 0
     ? detailedPlayers
