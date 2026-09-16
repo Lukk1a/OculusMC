@@ -243,7 +243,7 @@ export default function App() {
       axios.get('/api/waypoints').then(res => {
         if (Array.isArray(res.data)) setWaypoints(res.data);
       }).catch(() => {});
-    } catch (e) {
+    } catch {
       showToast('Failed to create waypoint', 'error');
     }
   };
@@ -253,12 +253,12 @@ export default function App() {
       await axios.delete(`/api/waypoint?name=${encodeURIComponent(name)}`);
       showToast('Waypoint deleted');
       setWaypoints(prev => prev.filter(w => w.name !== name));
-    } catch (e) {
+    } catch {
       showToast('Failed to delete waypoint', 'error');
     }
   };
 
-  const handleMapSelectCoordinates = (x, z, dim) => {
+  const handleMapSelectCoordinates = (x, z, _dim) => {
     setNewWaypoint(prev => ({ ...prev, x: Math.round(x), z: Math.round(z) }));
   };
 
@@ -985,38 +985,139 @@ export default function App() {
               VIEW 2: FULLSCREEN LIVE IN-APP MAP
              ======================================================================= */}
           {activeTab === 'map' && (
-            <div className="h-[calc(100vh-7rem)] flex flex-col space-y-3 max-w-7xl mx-auto">
-              <div className="p-3 linear-card flex items-center justify-between gap-3 shrink-0">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-[#ffffff]" />
-                  <h2 className="text-sm font-medium text-[#ffffff]">Real Server World Map</h2>
-                  <span className="text-[11px] font-mono-telemetry text-[#8a8f98] px-2 py-0.5 rounded-[4px] bg-[#161718]">
-                    Direct Anvil MCA Chunk Engine · 1024×1024 Blocks
-                  </span>
+            <div className="h-[calc(100vh-7rem)] flex max-w-7xl mx-auto space-x-4">
+              {/* Map Column */}
+              <div className="flex-1 flex flex-col space-y-3 min-w-0">
+                <div className="p-3 linear-card flex items-center justify-between gap-3 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-[#ffffff]" />
+                    <h2 className="text-sm font-medium text-[#ffffff]">Real Server World Map</h2>
+                    <span className="text-[11px] font-mono-telemetry text-[#8a8f98] px-2 py-0.5 rounded-[4px] bg-[#161718]">
+                      Direct Anvil MCA Chunk Engine · 1024×1024 Blocks
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {COORD_PRESETS && COORD_PRESETS.map((p) => (
+                      <button
+                        key={p.name}
+                        type="button"
+                        onClick={() => handleApplyPreset(p)}
+                        className="px-2 py-1 text-xs rounded-[6px] bg-[#161718] hover:bg-[#23252a] border border-[#23252a] text-[#8a8f98] hover:text-[#ffffff] font-mono-telemetry cursor-pointer transition-colors"
+                      >
+                        {p.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-
-                <div className="flex items-center gap-2">
-                  {COORD_PRESETS.map((p) => (
-                    <button
-                      key={p.name}
-                      type="button"
-                      onClick={() => handleApplyPreset(p)}
-                      className="px-2 py-1 text-xs rounded-[6px] bg-[#161718] hover:bg-[#23252a] border border-[#23252a] text-[#8a8f98] hover:text-[#ffffff] font-mono-telemetry cursor-pointer transition-colors"
-                    >
-                      {p.name}
-                    </button>
-                  ))}
+                <div className="flex-1 w-full rounded-[12px] overflow-hidden border border-[#23252a]">
+                  <MinecraftMap
+                    currentDimension={activeDimension}
+                    onDimensionChange={setActiveDimension}
+                    players={activePlayersList}
+                    onSelectCoordinates={handleMapSelectCoordinates}
+                    height="100%"
+                  />
                 </div>
               </div>
 
-              <div className="flex-1 w-full rounded-[12px] overflow-hidden border border-[#23252a]">
-                <MinecraftMap
-                  currentDimension={activeDimension}
-                  onDimensionChange={setActiveDimension}
-                  players={activePlayersList}
-                  onSelectCoordinates={handleMapSelectCoordinates}
-                  height="100%"
-                />
+              {/* Waypoints Column */}
+              <div className="w-80 flex flex-col space-y-3 shrink-0">
+                <div className="p-3 linear-card shrink-0">
+                  <h3 className="text-sm font-medium text-[#ffffff] flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[#e4f222]" />
+                    Tactical Waypoints
+                  </h3>
+                  <p className="text-xs text-[#8a8f98] mt-1">
+                    Click the map to plot a new coordinate.
+                  </p>
+                </div>
+                
+                {/* Create Waypoint Form */}
+                <div className="linear-card p-4 space-y-3 shrink-0 border-[#e4f222]/30">
+                  <div className="space-y-2 text-xs">
+                    <div>
+                      <label className="block text-[#8a8f98] mb-1">Name / Label</label>
+                      <input 
+                        type="text" 
+                        value={newWaypoint.name}
+                        onChange={(e) => setNewWaypoint(prev => ({ ...prev, name: e.target.value }))}
+                        className="w-full linear-input"
+                        placeholder="e.g. Forward Base"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[#8a8f98] mb-1">X Coordinate</label>
+                        <input 
+                          type="number" 
+                          value={newWaypoint.x}
+                          onChange={(e) => setNewWaypoint(prev => ({ ...prev, x: e.target.value }))}
+                          className="w-full linear-input"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[#8a8f98] mb-1">Z Coordinate</label>
+                        <input 
+                          type="number" 
+                          value={newWaypoint.z}
+                          onChange={(e) => setNewWaypoint(prev => ({ ...prev, z: e.target.value }))}
+                          className="w-full linear-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[#8a8f98] mb-1">Marker Color</label>
+                      <div className="flex gap-2">
+                        {['#e4f222', '#27a644', '#eb5757', '#6366f1', '#d0d6e0'].map(c => (
+                          <button
+                            key={c}
+                            onClick={() => setNewWaypoint(prev => ({ ...prev, color: c }))}
+                            className="w-6 h-6 rounded cursor-pointer border"
+                            style={{ 
+                              backgroundColor: c, 
+                              borderColor: newWaypoint.color === c ? '#ffffff' : 'transparent' 
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <button 
+                      onClick={handleCreateWaypoint}
+                      className="w-full mt-2 linear-btn-primary py-1.5 font-medium"
+                    >
+                      Save Waypoint
+                    </button>
+                  </div>
+                </div>
+
+                {/* Waypoint List */}
+                <div className="linear-card p-4 flex-1 overflow-y-auto space-y-2">
+                  {waypoints.length === 0 ? (
+                    <div className="text-center text-[#8a8f98] text-xs py-4">No waypoints plotted.</div>
+                  ) : (
+                    waypoints.map(wp => (
+                      <div key={wp.name} className="p-3 bg-[#161718] border border-[#23252a] rounded-[6px]">
+                        <div className="flex justify-between items-start mb-1">
+                          <div className="flex items-center gap-2 text-sm font-medium text-[#ffffff]">
+                            <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: wp.color }} />
+                            {wp.name}
+                          </div>
+                          <button 
+                            onClick={() => handleDeleteWaypoint(wp.name)}
+                            className="text-[#eb5757] hover:text-white transition-colors"
+                          >
+                            <span className="text-xs">✕</span>
+                          </button>
+                        </div>
+                        <div className="text-xs font-mono-telemetry text-[#8a8f98] flex gap-2">
+                          <span>{wp.world}</span>
+                          <span>X: {wp.x}</span>
+                          <span>Z: {wp.z}</span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             </div>
           )}
