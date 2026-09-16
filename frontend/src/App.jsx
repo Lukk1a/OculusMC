@@ -420,22 +420,22 @@ export default function App() {
   );
 
   return (
-    <div className="flex h-screen bg-[#08090a] text-[#d0d6e0] font-sans antialiased overflow-hidden select-none">
+    <div className="flex h-screen bg-void tracking-body text-mist font-sans antialiased overflow-hidden select-none">
       
       {/* =========================================================================
           LEFT SIDEBAR (LINEAR DESIGN SYSTEM)
          ========================================================================= */}
-      <aside className="w-60 bg-[#0f1011] border-r border-[#23252a] flex flex-col justify-between shrink-0 z-30 select-none">
+      <aside className="w-60 bg-carbon border-r border-graphite flex flex-col justify-between shrink-0 z-30 select-none">
         <div>
           {/* Brand Wordmark & Glyph */}
-          <div className="h-14 px-5 border-b border-[#23252a] flex items-center justify-between">
+          <div className="h-14 px-5 border-b border-graphite flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-5 h-5 rounded-[4px] bg-[#ffffff] flex items-center justify-center text-[#08090a]">
                 <Radio className="w-3 h-3 text-[#08090a]" />
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-sm tracking-tight text-[#ffffff]">OCULUS</span>
-                <span className="text-[10px] font-mono-telemetry text-[#8a8f98] px-1.5 py-0.5 rounded-[4px] bg-white/[0.04] border border-[#23252a]">
+                <span className="font-medium text-sm tracking-tight text-paper">OCULUS</span>
+                <span className="text-[10px] font-mono-telemetry text-fog px-1.5 py-0.5 rounded-[4px] bg-white/[0.04] border border-graphite">
                   26.2
                 </span>
               </div>
@@ -444,7 +444,7 @@ export default function App() {
 
           {/* Navigation Section */}
           <div className="p-3 space-y-1">
-            <div className="px-3 py-1.5 text-[10px] uppercase font-mono-telemetry font-medium tracking-wider text-[#62666d]">
+            <div className="px-3 py-1.5 text-[10px] uppercase font-mono-telemetry font-medium tracking-wider text-ash">
               WORKSPACE
             </div>
 
@@ -466,19 +466,19 @@ export default function App() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full px-3 py-2 rounded-[6px] text-xs transition-all flex items-center justify-between cursor-pointer ${
                     active
-                      ? 'bg-white/[0.08] text-[#ffffff] font-medium shadow-sm'
-                      : 'text-[#8a8f98] hover:text-[#d0d6e0] hover:bg-white/[0.03]'
+                      ? 'bg-white/[0.08] text-paper font-medium shadow-sm'
+                      : 'text-fog hover:text-mist hover:bg-white/[0.03]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
                     {React.cloneElement(tab.icon, {
-                      className: `w-4 h-4 ${active ? 'text-[#ffffff]' : 'text-[#8a8f98]'}`
+                      className: `w-4 h-4 ${active ? 'text-paper' : 'text-fog'}`
                     })}
                     <span>{tab.label}</span>
                   </div>
                   {tab.badge && (
                     <span className={`text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] ${
-                      active ? 'bg-white/10 text-white' : 'bg-white/[0.04] text-[#8a8f98] border border-[#23252a]'
+                      active ? 'bg-white/10 text-white' : 'bg-white/[0.04] text-fog border border-graphite'
                     }`}>
                       {tab.badge}
                     </span>
@@ -490,23 +490,23 @@ export default function App() {
         </div>
 
         {/* Sidebar Bottom Footer: Telemetry Summary & Server IP */}
-        <div className="p-4 border-t border-[#23252a] bg-[#0c0d0e] space-y-3">
+        <div className="p-4 border-t border-graphite bg-[#0c0d0e] space-y-3">
           <div className="flex items-center justify-between text-xs font-mono-telemetry">
-            <span className="text-[#8a8f98]">HEAP ALLOCATED</span>
-            <span className="text-[#ffffff]">{memUsedMB} / {memMaxMB} MB</span>
+            <span className="text-fog">HEAP ALLOCATED</span>
+            <span className="text-paper">{memUsedMB} / {memMaxMB} MB</span>
           </div>
           
-          <div className="w-full h-1 bg-[#23252a] rounded-full overflow-hidden">
+          <div className="w-full h-1 bg-graphite rounded-full overflow-hidden">
             <div
               style={{ width: `${memPct}%` }}
               className="h-full rounded-full bg-[#d0d6e0] transition-all duration-500"
             />
           </div>
 
-          <div className="pt-1 flex items-center justify-between text-[11px] font-mono-telemetry text-[#8a8f98]">
+          <div className="pt-1 flex items-center justify-between text-[11px] font-mono-telemetry text-fog">
             <span className="flex items-center gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-[#27a644]' : 'bg-[#f59e0b]'}`} />
-              <span className="text-[#d0d6e0]">{isOnline ? 'Synchronized' : 'Preview'}</span>
+              <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-pulse-green' : 'bg-amber-500'}`} />
+              <span className="text-mist">{isOnline ? 'Synchronized' : 'Preview'}</span>
             </span>
             <span>{currentTps} TPS</span>
           </div>
@@ -515,14 +515,14 @@ export default function App() {
           <button
             type="button"
             onClick={() => copyToClipboard('192.168.1.17:25565', 'ip')}
-            className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-[6px] bg-white/[0.03] hover:bg-white/[0.06] border border-[#23252a] text-[11px] font-mono-telemetry text-[#d0d6e0] transition-colors cursor-pointer"
+            className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-[6px] bg-white/[0.03] hover:bg-white/[0.06] border border-graphite text-[11px] font-mono-telemetry text-mist transition-colors cursor-pointer"
             title="Click to copy server IP"
           >
             <div className="flex items-center gap-1.5 truncate">
-              <Server className="w-3 h-3 text-[#8a8f98] shrink-0" />
+              <Server className="w-3 h-3 text-fog shrink-0" />
               <span className="truncate">192.168.1.17:25565</span>
             </div>
-            {copiedText === 'ip' ? <Check className="w-3 h-3 text-[#27a644] shrink-0" /> : <Copy className="w-3 h-3 text-[#8a8f98] shrink-0" />}
+            {copiedText === 'ip' ? <Check className="w-3 h-3 text-pulse-green shrink-0" /> : <Copy className="w-3 h-3 text-fog shrink-0" />}
           </button>
         </div>
       </aside>
@@ -533,19 +533,19 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         
         {/* Clean Linear Topbar */}
-        <header className="h-14 bg-[#0f1011] border-b border-[#23252a] px-6 flex items-center justify-between shrink-0 z-20">
-          <div className="flex items-center gap-2 text-xs font-mono-telemetry text-[#8a8f98]">
-            <span className="text-[#62666d]">CLUSTER</span>
-            <ChevronRight className="w-3 h-3 text-[#383b3f]" />
-            <span className="text-[#62666d]">192.168.1.17</span>
-            <ChevronRight className="w-3 h-3 text-[#383b3f]" />
-            <span className="text-[#ffffff] font-medium uppercase">{activeTab}</span>
+        <header className="h-14 bg-carbon border-b border-graphite px-6 flex items-center justify-between shrink-0 z-20">
+          <div className="flex items-center gap-2 text-xs font-mono-telemetry text-fog">
+            <span className="text-ash">CLUSTER</span>
+            <ChevronRight className="w-3 h-3 text-smoke" />
+            <span className="text-ash">192.168.1.17</span>
+            <ChevronRight className="w-3 h-3 text-smoke" />
+            <span className="text-paper font-medium uppercase">{activeTab}</span>
           </div>
 
           <div className="flex items-center gap-3">
             {lastUpdated && (
-              <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono-telemetry text-[#8a8f98]">
-                <Clock className="w-3 h-3 text-[#62666d]" />
+              <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono-telemetry text-fog">
+                <Clock className="w-3 h-3 text-ash" />
                 <span>Sync {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
               </div>
             )}
@@ -553,7 +553,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setRefreshTrigger(t => t + 1)}
-              className="p-1.5 rounded-[6px] border border-[#23252a] text-[#8a8f98] hover:text-[#ffffff] hover:border-[#383b3f] transition-all cursor-pointer"
+              className="p-1.5 rounded-[6px] border border-graphite text-fog hover:text-paper hover:border-smoke transition-all cursor-pointer"
               title="Force Telemetry Sync"
             >
               <RefreshCw className="w-3.5 h-3.5" />
@@ -563,13 +563,13 @@ export default function App() {
 
         {/* Global Toast Notification */}
         {toast && (
-          <div className="fixed top-16 right-6 z-50 px-4 py-2.5 rounded-[6px] bg-[#161718] border border-[#23252a] text-xs font-mono-telemetry text-[#ffffff] shadow-xl flex items-center gap-2 animate-fade-in">
-            <span className="w-2 h-2 rounded-full bg-[#e4f222]" />
+          <div className="fixed top-16 right-6 z-50 px-4 py-2.5 rounded-[6px] bg-obsidian border border-graphite text-xs font-mono-telemetry text-paper shadow-xl flex items-center gap-2 animate-fade-in">
+            <span className="w-2 h-2 rounded-full bg-acid-lime" />
             <span>{toast.text}</span>
             <button
               type="button"
               onClick={() => setToast(null)}
-              className="text-[#8a8f98] hover:text-[#ffffff] ml-2 cursor-pointer"
+              className="text-fog hover:text-paper ml-2 cursor-pointer"
             >
               ✕
             </button>
@@ -579,7 +579,7 @@ export default function App() {
         {/* =========================================================================
             VIEWPORT CONTAINER
            ========================================================================= */}
-        <main className="flex-1 overflow-y-auto p-5 md:p-8 bg-[#08090a]">
+        <main className="flex-1 overflow-y-auto p-5 md:p-8 bg-void">
           
           {/* =======================================================================
               VIEW 1: OVERVIEW DASHBOARD
@@ -587,13 +587,13 @@ export default function App() {
 
           {activeTab === 'analytics' && (
             <div className="space-y-6 max-w-6xl mx-auto p-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#23252a]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-graphite">
                 <div>
-                  <h2 className="text-base font-medium text-[#ffffff] flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-[#ffffff]" />
+                  <h2 className="text-base font-medium text-paper flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-paper" />
                     Server Analytics (Plan)
                   </h2>
-                  <p className="text-xs text-[#8a8f98] mt-0.5">
+                  <p className="text-xs text-fog mt-0.5">
                     Performance graphs, geographic overview, and player retention metrics.
                   </p>
                 </div>
@@ -605,8 +605,8 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* TPS Performance Graph */}
                 <div className="linear-card p-6">
-                  <h3 className="text-sm font-medium text-[#ffffff] mb-4">TPS Performance Graph (Last Hour)</h3>
-                  <div className="h-48 w-full bg-[#161718] border border-[#23252a] rounded-[6px] relative overflow-hidden">
+                  <h3 className="text-sm font-medium text-paper mb-4">TPS Performance Graph (Last Hour)</h3>
+                  <div className="h-48 w-full bg-obsidian border border-graphite rounded-[6px] relative overflow-hidden">
                     <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full stroke-2">
                       <polyline
                         fill="none"
@@ -619,8 +619,8 @@ export default function App() {
 
                 {/* RAM Performance Graph */}
                 <div className="linear-card p-6">
-                  <h3 className="text-sm font-medium text-[#ffffff] mb-4">Memory Usage Graph (Last Hour)</h3>
-                  <div className="h-48 w-full bg-[#161718] border border-[#23252a] rounded-[6px] relative overflow-hidden">
+                  <h3 className="text-sm font-medium text-paper mb-4">Memory Usage Graph (Last Hour)</h3>
+                  <div className="h-48 w-full bg-obsidian border border-graphite rounded-[6px] relative overflow-hidden">
                     <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full stroke-2">
                       <polyline
                         fill="none"
@@ -633,16 +633,16 @@ export default function App() {
 
                 {/* Player History */}
                 <div className="linear-card p-6 lg:col-span-2">
-                  <h3 className="text-sm font-medium text-[#ffffff] mb-4">Player Join/Leave History</h3>
+                  <h3 className="text-sm font-medium text-paper mb-4">Player Join/Leave History</h3>
                   <div className="space-y-2">
                     {playersHistory.length === 0 ? (
-                      <div className="text-xs text-[#8a8f98]">No player events recorded.</div>
+                      <div className="text-xs text-fog">No player events recorded.</div>
                     ) : (
                       playersHistory.slice().reverse().map((ev, idx) => (
-                        <div key={idx} className="p-3 rounded-[6px] bg-[#161718] border border-[#23252a] flex items-center gap-3 text-xs">
-                          <span className={ev.type === 'join' ? 'text-[#27a644]' : 'text-[#eb5757]'}>[{ev.type.toUpperCase()}]</span>
-                          <span className="text-[#ffffff]">{ev.player}</span>
-                          <span className="text-[#8a8f98]">{new Date(ev.timestamp).toLocaleTimeString()}</span>
+                        <div key={idx} className="p-3 rounded-[6px] bg-obsidian border border-graphite flex items-center gap-3 text-xs">
+                          <span className={ev.type === 'join' ? 'text-pulse-green' : 'text-coral-red'}>[{ev.type.toUpperCase()}]</span>
+                          <span className="text-paper">{ev.player}</span>
+                          <span className="text-fog">{new Date(ev.timestamp).toLocaleTimeString()}</span>
                         </div>
                       ))
                     )}
@@ -662,20 +662,20 @@ export default function App() {
                 <div className="linear-card p-3.5 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-mono-telemetry tracking-wider text-[#8a8f98] uppercase">
+                      <span className="text-[10px] font-mono-telemetry tracking-wider text-fog uppercase">
                         SERVER TPS
                       </span>
-                      <Activity className="w-3.5 h-3.5 text-[#27a644]" />
+                      <Activity className="w-3.5 h-3.5 text-pulse-green" />
                     </div>
                     <div className="flex items-baseline justify-between">
-                      <div className="text-xl font-mono-telemetry font-medium text-[#ffffff]">
+                      <div className="text-xl font-mono-telemetry font-medium text-paper tracking-display">
                         {currentTps}
                       </div>
-                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-[#27a644]">
+                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-pulse-green">
                         {parseFloat(currentTps) >= 19.5 ? 'Nominal' : 'Degraded'}
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#62666d] font-mono-telemetry mt-0.5">
+                    <div className="text-[10px] text-ash font-mono-telemetry mt-0.5">
                       50.0 ms target loop
                     </div>
                   </div>
@@ -683,10 +683,10 @@ export default function App() {
                   {/* Micro Sparkline */}
                   <div className="mt-3 flex items-end gap-1 h-6">
                     {tpsHistory.slice(-15).map((val, idx) => (
-                      <div key={idx} className="flex-1 bg-[#161718] rounded-t overflow-hidden flex items-end h-full">
+                      <div key={idx} className="flex-1 bg-obsidian rounded-t overflow-hidden flex items-end h-full">
                         <div
                           style={{ height: `${Math.max(15, Math.min(100, (val / 20) * 100))}%` }}
-                          className={`w-full ${val < 18 ? 'bg-[#eb5757]' : 'bg-[#27a644]'}`}
+                          className={`w-full ${val < 18 ? 'bg-coral-red' : 'bg-pulse-green'}`}
                         />
                       </div>
                     ))}
@@ -697,25 +697,25 @@ export default function App() {
                 <div className="linear-card p-3.5 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-mono-telemetry tracking-wider text-[#8a8f98] uppercase">
+                      <span className="text-[10px] font-mono-telemetry tracking-wider text-fog uppercase">
                         PROCESS CPU
                       </span>
-                      <Cpu className="w-3.5 h-3.5 text-[#8a8f98]" />
+                      <Cpu className="w-3.5 h-3.5 text-fog" />
                     </div>
                     <div className="flex items-baseline justify-between">
-                      <div className="text-xl font-mono-telemetry font-medium text-[#ffffff]">
+                      <div className="text-xl font-mono-telemetry font-medium text-paper tracking-display">
                         {cpuUsagePct}%
                       </div>
-                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-[#d0d6e0]">
+                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-mist">
                         AMD Athlon
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#62666d] font-mono-telemetry mt-0.5">
+                    <div className="text-[10px] text-ash font-mono-telemetry mt-0.5">
                       Process Load
                     </div>
                   </div>
 
-                  <div className="mt-2.5 w-full h-1 bg-[#161718] rounded-full overflow-hidden">
+                  <div className="mt-2.5 w-full h-1 bg-obsidian rounded-full overflow-hidden">
                     <div
                       style={{ width: `${Math.min(100, cpuUsagePct)}%` }}
                       className="h-full rounded-full bg-[#d0d6e0] transition-all duration-300"
@@ -727,25 +727,25 @@ export default function App() {
                 <div className="linear-card p-3.5 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-mono-telemetry tracking-wider text-[#8a8f98] uppercase">
+                      <span className="text-[10px] font-mono-telemetry tracking-wider text-fog uppercase">
                         JVM HEAP
                       </span>
-                      <HardDrive className="w-3.5 h-3.5 text-[#8a8f98]" />
+                      <HardDrive className="w-3.5 h-3.5 text-fog" />
                     </div>
                     <div className="flex items-baseline justify-between">
-                      <div className="text-xl font-mono-telemetry font-medium text-[#ffffff]">
-                        {memUsedMB} <span className="text-xs text-[#8a8f98]">MB</span>
+                      <div className="text-xl font-mono-telemetry font-medium text-paper tracking-display">
+                        {memUsedMB} <span className="text-xs text-fog">MB</span>
                       </div>
-                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-[#d0d6e0]">
+                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-mist">
                         {memPct}%
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#62666d] font-mono-telemetry mt-0.5">
+                    <div className="text-[10px] text-ash font-mono-telemetry mt-0.5">
                       Max: {memMaxMB} MB
                     </div>
                   </div>
 
-                  <div className="mt-2.5 w-full h-1 bg-[#161718] rounded-full overflow-hidden">
+                  <div className="mt-2.5 w-full h-1 bg-obsidian rounded-full overflow-hidden">
                     <div
                       style={{ width: `${memPct}%` }}
                       className="h-full rounded-full bg-[#d0d6e0] transition-all duration-300"
@@ -757,28 +757,28 @@ export default function App() {
                 <div className="linear-card p-3.5 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-mono-telemetry tracking-wider text-[#8a8f98] uppercase">
+                      <span className="text-[10px] font-mono-telemetry tracking-wider text-fog uppercase">
                         DISK USAGE
                       </span>
-                      <Server className="w-3.5 h-3.5 text-[#8a8f98]" />
+                      <Server className="w-3.5 h-3.5 text-fog" />
                     </div>
                     <div className="flex items-baseline justify-between">
-                      <div className="text-xl font-mono-telemetry font-medium text-[#ffffff]">
+                      <div className="text-xl font-mono-telemetry font-medium text-paper tracking-display">
                         {diskPct}%
                       </div>
-                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-[#27a644]">
+                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-pulse-green">
                         Healthy
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#62666d] font-mono-telemetry mt-0.5">
+                    <div className="text-[10px] text-ash font-mono-telemetry mt-0.5">
                       NVMe /dev/sda1
                     </div>
                   </div>
 
-                  <div className="mt-2.5 w-full h-1 bg-[#161718] rounded-full overflow-hidden">
+                  <div className="mt-2.5 w-full h-1 bg-obsidian rounded-full overflow-hidden">
                     <div
                       style={{ width: `${diskPct}%` }}
-                      className="h-full rounded-full bg-[#27a644] transition-all duration-300"
+                      className="h-full rounded-full bg-pulse-green transition-all duration-300"
                     />
                   </div>
                 </div>
@@ -787,26 +787,26 @@ export default function App() {
                 <div className="linear-card p-3.5 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-mono-telemetry tracking-wider text-[#8a8f98] uppercase">
+                      <span className="text-[10px] font-mono-telemetry tracking-wider text-fog uppercase">
                         ONLINE PLAYERS
                       </span>
-                      <Users className="w-3.5 h-3.5 text-[#8a8f98]" />
+                      <Users className="w-3.5 h-3.5 text-fog" />
                     </div>
                     <div className="flex items-baseline justify-between">
-                      <div className="text-xl font-mono-telemetry font-medium text-[#ffffff]">
-                        {activePlayersList.length} <span className="text-xs text-[#8a8f98]">/ {stats?.maxPlayers || 20}</span>
+                      <div className="text-xl font-mono-telemetry font-medium text-paper tracking-display">
+                        {activePlayersList.length} <span className="text-xs text-fog">/ {stats?.maxPlayers || 20}</span>
                       </div>
-                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-[#d0d6e0]">
+                      <span className="text-[10px] font-mono-telemetry px-1.5 py-0.2 rounded bg-white/[0.05] text-mist">
                         {formatUptime(stats?.uptimeMs)}
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#62666d] font-mono-telemetry mt-0.5">
+                    <div className="text-[10px] text-ash font-mono-telemetry mt-0.5">
                       {totalChunks} chunks · {totalEntities} entities
                     </div>
                   </div>
 
-                  <div className="mt-2.5 text-[10px] font-mono-telemetry text-[#8a8f98] flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#27a644]" />
+                  <div className="mt-2.5 text-[10px] font-mono-telemetry text-fog flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-pulse-green" />
                                       </div>
                 </div>
               </div>
@@ -814,8 +814,8 @@ export default function App() {
               {/* Quick Server Action Controls Bar */}
               <div className="linear-card p-3 flex flex-wrap items-center justify-between gap-3 text-xs font-mono-telemetry">
                 <div className="flex items-center gap-2">
-                  <Zap className="w-3.5 h-3.5 text-[#e4f222]" />
-                  <span className="text-[#ffffff] font-medium">Server Quick Actions:</span>
+                  <Zap className="w-3.5 h-3.5 text-acid-lime" />
+                  <span className="text-paper font-medium">Server Quick Actions:</span>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
@@ -825,7 +825,7 @@ export default function App() {
                     className="linear-btn-ghost px-2.5 py-1 text-xs flex items-center gap-1.5 cursor-pointer"
                     title="Force JVM Garbage Collection"
                   >
-                    <RotateCcw className="w-3 h-3 text-[#8a8f98]" />
+                    <RotateCcw className="w-3 h-3 text-fog" />
                     <span>Run GC</span>
                   </button>
 
@@ -835,7 +835,7 @@ export default function App() {
                     className="linear-btn-ghost px-2.5 py-1 text-xs flex items-center gap-1.5 cursor-pointer"
                     title="Set time to Day"
                   >
-                    <Sun className="w-3 h-3 text-[#f59e0b]" />
+                    <Sun className="w-3 h-3 text-amber-500" />
                     <span>Day</span>
                   </button>
 
@@ -872,7 +872,7 @@ export default function App() {
                     onClick={() => setShowBroadcastBox(!showBroadcastBox)}
                     className="linear-btn-ghost px-2.5 py-1 text-xs flex items-center gap-1.5 cursor-pointer"
                   >
-                    <Volume2 className="w-3 h-3 text-[#6366f1]" />
+                    <Volume2 className="w-3 h-3 text-iris-violet" />
                     <span>Broadcast</span>
                   </button>
                 </div>
@@ -882,11 +882,11 @@ export default function App() {
               {showBroadcastBox && (
                 <div className="linear-card p-4 space-y-3 animate-fade-in border-[#e4f222]/30">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-[#ffffff]">Broadcast Server-wide Announcement</span>
+                    <span className="text-xs font-medium text-paper">Broadcast Server-wide Announcement</span>
                     <button
                       type="button"
                       onClick={() => setShowBroadcastBox(false)}
-                      className="text-xs text-[#8a8f98] hover:text-[#ffffff] cursor-pointer"
+                      className="text-xs text-fog hover:text-paper cursor-pointer"
                     >
                       ✕
                     </button>
@@ -916,18 +916,18 @@ export default function App() {
 
               {/* In-App Native Map Showcase */}
               <div className="linear-card p-5 space-y-3">
-                <div className="flex items-center justify-between pb-2 border-b border-[#23252a]">
+                <div className="flex items-center justify-between pb-2 border-b border-graphite">
                   <div className="flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-[#ffffff]" />
-                    <h3 className="font-medium text-sm text-[#ffffff]">Integrated Tactical World Radar</h3>
-                    <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-[#161718] text-[#8a8f98]">
+                    <Globe className="w-4 h-4 text-paper" />
+                    <h3 className="font-medium text-sm text-paper">Integrated Tactical World Radar</h3>
+                    <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-obsidian text-fog">
                       Real Anvil MCA Chunks
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setActiveTab('map')}
-                    className="px-3 py-1 rounded-[6px] bg-white/[0.04] hover:bg-white/[0.08] border border-[#23252a] text-xs font-mono-telemetry text-[#d0d6e0] hover:text-[#ffffff] flex items-center gap-1.5 transition-all cursor-pointer"
+                    className="px-3 py-1 rounded-[6px] bg-white/[0.04] hover:bg-white/[0.08] border border-graphite text-xs font-mono-telemetry text-mist hover:text-paper flex items-center gap-1.5 transition-all cursor-pointer"
                   >
                     <span>Expand Full Map</span>
                     <ExternalLink className="w-3 h-3" />
@@ -947,36 +947,36 @@ export default function App() {
 
               {/* System Architecture Matrix */}
               <div className="linear-card p-5 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-[#23252a]">
+                <div className="flex items-center justify-between pb-3 border-b border-graphite">
                   <div className="flex items-center gap-2">
-                    <Server className="w-4 h-4 text-[#ffffff]" />
-                    <h4 className="font-medium text-sm text-[#ffffff]">Server Engine & Infrastructure</h4>
+                    <Server className="w-4 h-4 text-paper" />
+                    <h4 className="font-medium text-sm text-paper">Server Engine & Infrastructure</h4>
                   </div>
-                  <span className="text-[10px] font-mono-telemetry px-2 py-0.5 rounded-[4px] bg-[#161718] text-[#8a8f98]">
+                  <span className="text-[10px] font-mono-telemetry px-2 py-0.5 rounded-[4px] bg-obsidian text-fog">
                     Debian 13 Linux x64
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono-telemetry">
                   <div>
-                    <span className="text-[#62666d] block mb-1">PROCESSOR</span>
-                    <span className="text-[#ffffff]">AMD Athlon 3050U</span>
-                    <span className="text-[#8a8f98] block text-[10px]">2 Cores @ 2.30 GHz</span>
+                    <span className="text-ash block mb-1">PROCESSOR</span>
+                    <span className="text-paper">AMD Athlon 3050U</span>
+                    <span className="text-fog block text-[10px]">2 Cores @ 2.30 GHz</span>
                   </div>
                   <div>
-                    <span className="text-[#62666d] block mb-1">JAVA RUNTIME</span>
-                    <span className="text-[#ffffff]">OpenJDK 25.0.2</span>
-                    <span className="text-[#8a8f98] block text-[10px]">Aikar G1GC Flags</span>
+                    <span className="text-ash block mb-1">JAVA RUNTIME</span>
+                    <span className="text-paper">OpenJDK 25.0.2</span>
+                    <span className="text-fog block text-[10px]">Aikar G1GC Flags</span>
                   </div>
                   <div>
-                    <span className="text-[#62666d] block mb-1">MINECRAFT VERSION</span>
-                    <span className="text-[#ffffff]">Paper 26.2 (#124)</span>
-                    <span className="text-[#8a8f98] block text-[10px]">Protocol 776</span>
+                    <span className="text-ash block mb-1">MINECRAFT VERSION</span>
+                    <span className="text-paper">Paper 26.2 (#124)</span>
+                    <span className="text-fog block text-[10px]">Protocol 776</span>
                   </div>
                   <div>
-                    <span className="text-[#62666d] block mb-1">APOLLO PROTOCOL</span>
-                    <span className="text-[#27a644]">Connected</span>
-                    <span className="text-[#8a8f98] block text-[10px]">Apollo v1.2.9</span>
+                    <span className="text-ash block mb-1">APOLLO PROTOCOL</span>
+                    <span className="text-pulse-green">Connected</span>
+                    <span className="text-fog block text-[10px]">Apollo v1.2.9</span>
                   </div>
                 </div>
               </div>
@@ -993,15 +993,15 @@ export default function App() {
               <div className="flex-1 flex flex-col space-y-3 min-w-0">
                 <div className="p-3 linear-card flex items-center justify-between gap-3 shrink-0">
                   <div className="flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-[#ffffff]" />
-                    <h2 className="text-sm font-medium text-[#ffffff]">Real Server World Map</h2>
-                    <span className="text-[11px] font-mono-telemetry text-[#8a8f98] px-2 py-0.5 rounded-[4px] bg-[#161718]">
+                    <Globe className="w-4 h-4 text-paper" />
+                    <h2 className="text-sm font-medium text-paper">Real Server World Map</h2>
+                    <span className="text-[11px] font-mono-telemetry text-fog px-2 py-0.5 rounded-[4px] bg-obsidian">
                       Direct Anvil MCA Chunk Engine · 1024×1024 Blocks
                     </span>
                   </div>
 
                 </div>
-                <div className="flex-1 w-full rounded-[12px] overflow-hidden border border-[#23252a]">
+                <div className="flex-1 w-full rounded-[12px] overflow-hidden border border-graphite">
                   <MinecraftMap
                     currentDimension={activeDimension}
                     onDimensionChange={setActiveDimension}
@@ -1015,11 +1015,11 @@ export default function App() {
               {/* Waypoints Column */}
               <div className="w-80 flex flex-col space-y-3 shrink-0">
                 <div className="p-3 linear-card shrink-0">
-                  <h3 className="text-sm font-medium text-[#ffffff] flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-[#e4f222]" />
+                  <h3 className="text-sm font-medium text-paper flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-acid-lime" />
                     Tactical Waypoints
                   </h3>
-                  <p className="text-xs text-[#8a8f98] mt-1">
+                  <p className="text-xs text-fog mt-1">
                     Click the map to plot a new coordinate.
                   </p>
                 </div>
@@ -1028,7 +1028,7 @@ export default function App() {
                 <div className="linear-card p-4 space-y-3 shrink-0 border-[#e4f222]/30">
                   <div className="space-y-2 text-xs">
                     <div>
-                      <label className="block text-[#8a8f98] mb-1">Name / Label</label>
+                      <label className="block text-fog mb-1">Name / Label</label>
                       <input 
                         type="text" 
                         value={newWaypoint.name}
@@ -1039,7 +1039,7 @@ export default function App() {
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="block text-[#8a8f98] mb-1">X Coordinate</label>
+                        <label className="block text-fog mb-1">X Coordinate</label>
                         <input 
                           type="number" 
                           value={newWaypoint.x}
@@ -1048,7 +1048,7 @@ export default function App() {
                         />
                       </div>
                       <div>
-                        <label className="block text-[#8a8f98] mb-1">Z Coordinate</label>
+                        <label className="block text-fog mb-1">Z Coordinate</label>
                         <input 
                           type="number" 
                           value={newWaypoint.z}
@@ -1058,7 +1058,7 @@ export default function App() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[#8a8f98] mb-1">Marker Color</label>
+                      <label className="block text-fog mb-1">Marker Color</label>
                       <div className="flex gap-2">
                         {['#e4f222', '#27a644', '#eb5757', '#6366f1', '#d0d6e0'].map(c => (
                           <button
@@ -1085,23 +1085,23 @@ export default function App() {
                 {/* Waypoint List */}
                 <div className="linear-card p-4 flex-1 overflow-y-auto space-y-2">
                   {waypoints.length === 0 ? (
-                    <div className="text-center text-[#8a8f98] text-xs py-4">No waypoints plotted.</div>
+                    <div className="text-center text-fog text-xs py-4">No waypoints plotted.</div>
                   ) : (
                     waypoints.map(wp => (
-                      <div key={wp.name} className="p-3 bg-[#161718] border border-[#23252a] rounded-[6px]">
+                      <div key={wp.name} className="p-3 bg-obsidian border border-graphite rounded-[6px]">
                         <div className="flex justify-between items-start mb-1">
-                          <div className="flex items-center gap-2 text-sm font-medium text-[#ffffff]">
+                          <div className="flex items-center gap-2 text-sm font-medium text-paper">
                             <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: wp.color }} />
                             {wp.name}
                           </div>
                           <button 
                             onClick={() => handleDeleteWaypoint(wp.name)}
-                            className="text-[#eb5757] hover:text-white transition-colors"
+                            className="text-coral-red hover:text-white transition-colors"
                           >
                             <span className="text-xs">✕</span>
                           </button>
                         </div>
-                        <div className="text-xs font-mono-telemetry text-[#8a8f98] flex gap-2">
+                        <div className="text-xs font-mono-telemetry text-fog flex gap-2">
                           <span>{wp.world}</span>
                           <span>X: {wp.x}</span>
                           <span>Z: {wp.z}</span>
@@ -1119,20 +1119,20 @@ export default function App() {
              ======================================================================= */}
           {activeTab === 'players' && (
             <div className="space-y-6 max-w-6xl mx-auto">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#23252a]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-graphite">
                 <div>
-                  <h2 className="text-base font-medium text-[#ffffff] flex items-center gap-2">
-                    <Users className="w-4 h-4 text-[#ffffff]" />
+                  <h2 className="text-base font-medium text-paper flex items-center gap-2">
+                    <Users className="w-4 h-4 text-paper" />
                     Player Roster & Moderation
                   </h2>
-                  <p className="text-xs text-[#8a8f98] mt-0.5">
+                  <p className="text-xs text-fog mt-0.5">
                     Live connected players with skin heads, health, gamemode controls, 
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <Search className="w-3.5 h-3.5 text-[#8a8f98] absolute left-2.5 top-2.5" />
+                    <Search className="w-3.5 h-3.5 text-fog absolute left-2.5 top-2.5" />
                     <input
                       type="text"
                       value={playerSearch}
@@ -1141,7 +1141,7 @@ export default function App() {
                       className="pl-8 pr-3 py-1.5 linear-input text-xs w-48 font-mono-telemetry"
                     />
                   </div>
-                  <div className="px-3 py-1.5 rounded-[6px] bg-[#161718] border border-[#23252a] text-xs font-mono-telemetry text-[#d0d6e0]">
+                  <div className="px-3 py-1.5 rounded-[6px] bg-obsidian border border-graphite text-xs font-mono-telemetry text-mist">
                     {activePlayersList.length} / {stats?.maxPlayers || 20} ONLINE
                   </div>
                 </div>
@@ -1151,12 +1151,12 @@ export default function App() {
               {kickTarget && (
                 <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
                   <div className="linear-card p-6 max-w-md w-full space-y-4 border-[#eb5757]/40">
-                    <div className="flex items-center gap-2 text-[#eb5757]">
+                    <div className="flex items-center gap-2 text-coral-red">
                       <AlertTriangle className="w-4 h-4" />
                       <h3 className="font-medium text-sm">Kick Player: {kickTarget}</h3>
                     </div>
                     <div>
-                      <label className="block text-xs text-[#8a8f98] mb-1">Reason for Disconnection</label>
+                      <label className="block text-xs text-fog mb-1">Reason for Disconnection</label>
                       <input
                         type="text"
                         value={kickReason}
@@ -1175,7 +1175,7 @@ export default function App() {
                       <button
                         type="button"
                         onClick={() => handlePlayerAction(kickTarget, 'kick', kickReason)}
-                        className="px-4 py-1.5 rounded-[6px] bg-[#eb5757] text-white font-medium text-xs cursor-pointer hover:brightness-110"
+                        className="px-4 py-1.5 rounded-[6px] bg-coral-red text-white font-medium text-xs cursor-pointer hover:brightness-110"
                       >
                         Confirm Kick
                       </button>
@@ -1186,12 +1186,12 @@ export default function App() {
 
               {filteredPlayers.length === 0 ? (
                 <div className="linear-card p-12 text-center space-y-3">
-                  <div className="w-10 h-10 mx-auto rounded-full bg-white/[0.04] border border-[#23252a] flex items-center justify-center text-[#8a8f98]">
+                  <div className="w-10 h-10 mx-auto rounded-full bg-white/[0.04] border border-graphite flex items-center justify-center text-fog">
                     <Users className="w-5 h-5" />
                   </div>
-                  <h3 className="font-medium text-[#ffffff] text-sm">No Players Found</h3>
-                  <p className="text-xs text-[#8a8f98] max-w-sm mx-auto font-mono-telemetry">
-                    Connect via Minecraft 26.2 client at <span className="text-[#ffffff]">192.168.1.17:25565</span> to appear on this live roster.
+                  <h3 className="font-medium text-paper text-sm">No Players Found</h3>
+                  <p className="text-xs text-fog max-w-sm mx-auto font-mono-telemetry">
+                    Connect via Minecraft 26.2 client at <span className="text-paper">192.168.1.17:25565</span> to appear on this live roster.
                   </p>
                 </div>
               ) : (
@@ -1205,24 +1205,24 @@ export default function App() {
                           <img
                             src={`https://mc-heads.net/avatar/${player.name}/64`}
                             alt={player.name}
-                            className="w-11 h-11 rounded-[6px] bg-[#161718] border border-[#23252a]"
+                            className="w-11 h-11 rounded-[6px] bg-obsidian border border-graphite"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';
                             }}
                           />
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium text-[#ffffff]">{player.name}</span>
+                              <span className="text-sm font-medium text-paper">{player.name}</span>
                               {player.isOp && (
-                                <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-[#eb5757]/20 border border-[#eb5757]/40 text-[#eb5757]">
+                                <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-coral-red/20 border border-[#eb5757]/40 text-coral-red">
                                   OP
                                 </span>
                               )}
-                              <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-white/[0.04] text-[#8a8f98]">
+                              <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-white/[0.04] text-fog">
                                 {player.world || 'world'}
                               </span>
                             </div>
-                            <div className="text-[11px] font-mono-telemetry text-[#8a8f98] mt-0.5">
+                            <div className="text-[11px] font-mono-telemetry text-fog mt-0.5">
                               UUID: {player.uuid ? player.uuid.substring(0, 8) + '...' : 'Unknown'}
                             </div>
                           </div>
@@ -1233,37 +1233,37 @@ export default function App() {
                           <span
                             className={`w-2 h-2 rounded-full ${
                               (player.ping || 10) < 60
-                                ? 'bg-[#27a644]'
+                                ? 'bg-pulse-green'
                                 : (player.ping || 10) < 120
-                                ? 'bg-[#f59e0b]'
-                                : 'bg-[#eb5757]'
+                                ? 'bg-amber-500'
+                                : 'bg-coral-red'
                             }`}
                           />
-                          <span className="text-[#8a8f98]">{player.ping || 10} ms</span>
+                          <span className="text-fog">{player.ping || 10} ms</span>
                         </div>
                       </div>
 
                       {/* Health and Position Readout */}
-                      <div className="p-3 rounded-[6px] bg-[#161718] border border-[#23252a] grid grid-cols-2 gap-3 text-xs font-mono-telemetry">
+                      <div className="p-3 rounded-[6px] bg-obsidian border border-graphite grid grid-cols-2 gap-3 text-xs font-mono-telemetry">
                         <div>
-                          <span className="text-[#62666d] block mb-0.5">HEALTH</span>
-                          <div className="flex items-center gap-1.5 text-[#eb5757]">
+                          <span className="text-ash block mb-0.5">HEALTH</span>
+                          <div className="flex items-center gap-1.5 text-coral-red">
                             <Heart className="w-3.5 h-3.5 fill-[#eb5757]" />
-                            <span className="text-[#ffffff]">{player.health ? Math.round(player.health) : 20} / 20</span>
+                            <span className="text-paper">{player.health ? Math.round(player.health) : 20} / 20</span>
                           </div>
                         </div>
                         <div>
-                          <span className="text-[#62666d] block mb-0.5">COORDINATES</span>
-                          <span className="text-[#ffffff]">
+                          <span className="text-ash block mb-0.5">COORDINATES</span>
+                          <span className="text-paper">
                             [{Math.round(player.x || 0)}, {Math.round(player.y || 64)}, {Math.round(player.z || 0)}]
                           </span>
                         </div>
                       </div>
 
                       {/* Gamemode Selector and Actions Bar */}
-                      <div className="pt-2 border-t border-[#23252a] flex flex-wrap items-center justify-between gap-2">
+                      <div className="pt-2 border-t border-graphite flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono-telemetry text-[#8a8f98]">Mode:</span>
+                          <span className="text-xs font-mono-telemetry text-fog">Mode:</span>
                           <select
                             value={player.gamemode || 'SURVIVAL'}
                             onChange={(e) => handlePlayerAction(player.name, 'gamemode', e.target.value)}
@@ -1299,7 +1299,7 @@ export default function App() {
                           <button
                             type="button"
                             onClick={() => setKickTarget(player.name)}
-                            className="px-2 py-1 text-xs rounded-[6px] bg-[#eb5757]/10 hover:bg-[#eb5757]/20 border border-[#eb5757]/30 text-[#eb5757] font-mono-telemetry cursor-pointer transition-colors"
+                            className="px-2 py-1 text-xs rounded-[6px] bg-coral-red/10 hover:bg-coral-red/20 border border-[#eb5757]/30 text-coral-red font-mono-telemetry cursor-pointer transition-colors"
                           >
                             Kick
                           </button>
@@ -1321,16 +1321,16 @@ export default function App() {
               {/* Console Toolbar */}
               <div className="p-3 linear-card flex flex-wrap items-center justify-between gap-3 shrink-0">
                 <div className="flex items-center gap-2">
-                  <Terminal className="w-4 h-4 text-[#ffffff]" />
-                  <h2 className="text-sm font-medium text-[#ffffff]">Interactive Server Terminal</h2>
-                  <span className="text-[10px] font-mono-telemetry text-[#8a8f98] px-2 py-0.5 rounded-[4px] bg-[#161718]">
+                  <Terminal className="w-4 h-4 text-paper" />
+                  <h2 className="text-sm font-medium text-paper">Interactive Server Terminal</h2>
+                  <span className="text-[10px] font-mono-telemetry text-fog px-2 py-0.5 rounded-[4px] bg-obsidian">
                     Paper Tick Log Stream
                   </span>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
                   {/* Severity Filter Chips */}
-                  <div className="flex rounded-[6px] bg-[#161718] p-0.5 border border-[#23252a]">
+                  <div className="flex rounded-[6px] bg-obsidian p-0.5 border border-graphite">
                     {['ALL', 'INFO', 'WARN', 'ERROR', 'CMD'].map((lvl) => (
                       <button
                         key={lvl}
@@ -1339,7 +1339,7 @@ export default function App() {
                         className={`px-2 py-0.5 text-[10px] font-mono-telemetry rounded-[4px] cursor-pointer transition-all ${
                           logFilter === lvl
                             ? 'bg-white/10 text-white font-medium'
-                            : 'text-[#8a8f98] hover:text-[#d0d6e0]'
+                            : 'text-fog hover:text-mist'
                         }`}
                       >
                         {lvl}
@@ -1349,7 +1349,7 @@ export default function App() {
 
                   {/* Search Filter */}
                   <div className="relative">
-                    <Search className="w-3 h-3 text-[#8a8f98] absolute left-2 top-2" />
+                    <Search className="w-3 h-3 text-fog absolute left-2 top-2" />
                     <input
                       type="text"
                       value={logSearch}
@@ -1364,8 +1364,8 @@ export default function App() {
                     onClick={() => setAutoScroll(!autoScroll)}
                     className={`px-2.5 py-1 rounded-[6px] border text-xs font-mono-telemetry cursor-pointer transition-colors ${
                       autoScroll
-                        ? 'bg-white/[0.08] border-[#383b3f] text-[#ffffff]'
-                        : 'bg-transparent border-[#23252a] text-[#8a8f98]'
+                        ? 'bg-white/[0.08] border-smoke text-paper'
+                        : 'bg-transparent border-graphite text-fog'
                     }`}
                   >
                     Auto-Scroll
@@ -1382,29 +1382,29 @@ export default function App() {
               </div>
 
               {/* Terminal Viewport */}
-              <div className="flex-1 linear-card p-4 overflow-y-auto font-mono-telemetry text-xs leading-relaxed space-y-1 bg-[#08090a] border border-[#23252a]">
+              <div className="flex-1 linear-card p-4 overflow-y-auto font-mono-telemetry text-xs leading-relaxed space-y-1 bg-void border border-graphite">
                 {filteredLogs.length === 0 ? (
-                  <div className="text-center py-16 text-[#62666d]">
+                  <div className="text-center py-16 text-ash">
                     No terminal log messages matching the active filter.
                   </div>
                 ) : (
                   filteredLogs.map((log, idx) => (
                     <div key={idx} className="flex items-start gap-2.5 hover:bg-white/[0.02] px-1 py-0.5 rounded">
-                      <span className="text-[#62666d] select-none text-[11px] shrink-0">{log.time}</span>
+                      <span className="text-ash select-none text-[11px] shrink-0">{log.time}</span>
                       <span
                         className={`text-[10px] px-1 py-0.2 rounded font-medium shrink-0 ${
                           log.level === 'ERROR'
-                            ? 'bg-[#eb5757]/20 text-[#eb5757]'
+                            ? 'bg-coral-red/20 text-coral-red'
                             : log.level === 'WARN'
-                            ? 'bg-[#f59e0b]/20 text-[#f59e0b]'
+                            ? 'bg-amber-500/20 text-amber-500'
                             : log.level === 'CMD' || log.level === 'EXEC'
-                            ? 'bg-[#6366f1]/20 text-[#8b5cf6]'
-                            : 'bg-white/[0.04] text-[#8a8f98]'
+                            ? 'bg-iris-violet/20 text-[#8b5cf6]'
+                            : 'bg-white/[0.04] text-fog'
                         }`}
                       >
                         {log.level}
                       </span>
-                      <span className="text-[#d0d6e0] break-all select-text">{log.msg}</span>
+                      <span className="text-mist break-all select-text">{log.msg}</span>
                     </div>
                   ))
                 )}
@@ -1420,7 +1420,7 @@ export default function App() {
                     onClick={() => {
                       setConsoleInput(cmd);
                     }}
-                    className="px-2 py-0.5 rounded-[4px] bg-[#161718] hover:bg-[#23252a] border border-[#23252a] text-[10px] font-mono-telemetry text-[#8a8f98] hover:text-[#d0d6e0] transition-colors cursor-pointer"
+                    className="px-2 py-0.5 rounded-[4px] bg-obsidian hover:bg-graphite border border-graphite text-[10px] font-mono-telemetry text-fog hover:text-mist transition-colors cursor-pointer"
                   >
                     {cmd}
                   </button>
@@ -1430,7 +1430,7 @@ export default function App() {
               {/* Command Prompt Form */}
               <form onSubmit={handleConsoleSubmit} className="flex gap-2 shrink-0">
                 <div className="relative flex-1">
-                  <span className="absolute left-3 top-2.5 text-xs font-mono-telemetry text-[#8a8f98] select-none">&gt;</span>
+                  <span className="absolute left-3 top-2.5 text-xs font-mono-telemetry text-fog select-none">&gt;</span>
                   <input
                     type="text"
                     value={consoleInput}
@@ -1456,20 +1456,20 @@ export default function App() {
              ======================================================================= */}
           {activeTab === 'plugins' && (
             <div className="space-y-6 max-w-6xl mx-auto">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#23252a]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-graphite">
                 <div>
-                  <h2 className="text-base font-medium text-[#ffffff] flex items-center gap-2">
-                    <Package className="w-4 h-4 text-[#ffffff]" />
+                  <h2 className="text-base font-medium text-paper flex items-center gap-2">
+                    <Package className="w-4 h-4 text-paper" />
                     Installed Plugins
                   </h2>
-                  <p className="text-xs text-[#8a8f98] mt-0.5">
+                  <p className="text-xs text-fog mt-0.5">
                     Bukkit and Paper runtime plugins with real-time reload and configuration triggers
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <Search className="w-3.5 h-3.5 text-[#8a8f98] absolute left-2.5 top-2.5" />
+                    <Search className="w-3.5 h-3.5 text-fog absolute left-2.5 top-2.5" />
                     <input
                       type="text"
                       value={pluginSearch}
@@ -1478,7 +1478,7 @@ export default function App() {
                       className="pl-8 pr-3 py-1.5 linear-input text-xs w-48 font-mono-telemetry"
                     />
                   </div>
-                  <div className="px-3 py-1.5 rounded-[6px] bg-[#161718] border border-[#23252a] text-xs font-mono-telemetry text-[#d0d6e0]">
+                  <div className="px-3 py-1.5 rounded-[6px] bg-obsidian border border-graphite text-xs font-mono-telemetry text-mist">
                     {pluginsList.length} LOADED
                   </div>
                 </div>
@@ -1490,12 +1490,12 @@ export default function App() {
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-medium text-[#ffffff]">{plugin.name}</h3>
-                          <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-white/[0.04] text-[#d0d6e0] border border-[#23252a]">
+                          <h3 className="text-sm font-medium text-paper">{plugin.name}</h3>
+                          <span className="text-[10px] font-mono-telemetry px-1.5 py-0.5 rounded-[4px] bg-white/[0.04] text-mist border border-graphite">
                             v{plugin.version}
                           </span>
                         </div>
-                        <div className="text-[11px] font-mono-telemetry text-[#8a8f98] mt-0.5">
+                        <div className="text-[11px] font-mono-telemetry text-fog mt-0.5">
                           By: {Array.isArray(plugin.authors) ? plugin.authors.join(', ') : 'Server Team'}
                         </div>
                       </div>
@@ -1503,25 +1503,25 @@ export default function App() {
                       <span
                         className={`text-[10px] font-mono-telemetry px-2 py-0.5 rounded-[4px] ${
                           plugin.enabled !== false
-                            ? 'bg-[#27a644]/15 text-[#27a644] border border-[#27a644]/30'
-                            : 'bg-white/[0.05] text-[#8a8f98]'
+                            ? 'bg-pulse-green/15 text-pulse-green border border-[#27a644]/30'
+                            : 'bg-white/[0.05] text-fog'
                         }`}
                       >
                         {plugin.enabled !== false ? 'Active' : 'Disabled'}
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#8a8f98] leading-relaxed">
+                    <p className="text-xs text-fog leading-relaxed">
                       {plugin.description || 'No plugin description specified.'}
                     </p>
 
-                    <div className="pt-3 border-t border-[#23252a] flex items-center justify-between">
+                    <div className="pt-3 border-t border-graphite flex items-center justify-between">
                       {plugin.website ? (
                         <a
                           href={plugin.website}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-xs font-mono-telemetry text-[#8a8f98] hover:text-[#ffffff] flex items-center gap-1 transition-colors"
+                          className="text-xs font-mono-telemetry text-fog hover:text-paper flex items-center gap-1 transition-colors"
                         >
                           <span>Repository</span>
                           <ExternalLink className="w-3 h-3" />
@@ -1550,20 +1550,20 @@ export default function App() {
              ======================================================================= */}
           {activeTab === 'config' && (
             <div className="space-y-6 max-w-5xl mx-auto">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#23252a]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-graphite">
                 <div>
-                  <h2 className="text-base font-medium text-[#ffffff] flex items-center gap-2">
-                    <Sliders className="w-4 h-4 text-[#ffffff]" />
+                  <h2 className="text-base font-medium text-paper flex items-center gap-2">
+                    <Sliders className="w-4 h-4 text-paper" />
                     server.properties Editor
                   </h2>
-                  <p className="text-xs text-[#8a8f98] mt-0.5">
+                  <p className="text-xs text-fog mt-0.5">
                     Modify core Paper/Minecraft server parameters and persist directly to disk
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <Search className="w-3.5 h-3.5 text-[#8a8f98] absolute left-2.5 top-2.5" />
+                    <Search className="w-3.5 h-3.5 text-fog absolute left-2.5 top-2.5" />
                     <input
                       type="text"
                       value={propSearch}
@@ -1586,14 +1586,14 @@ export default function App() {
               </div>
 
               {propertiesLoading ? (
-                <div className="linear-card p-12 text-center text-xs font-mono-telemetry text-[#8a8f98]">
+                <div className="linear-card p-12 text-center text-xs font-mono-telemetry text-fog">
                   Loading server.properties from disk...
                 </div>
               ) : (
                 <div className="linear-card p-6 space-y-4">
                   <div className="space-y-2">
                     {filteredProperties.length === 0 ? (
-                      <div className="text-center py-8 text-xs font-mono-telemetry text-[#62666d]">
+                      <div className="text-center py-8 text-xs font-mono-telemetry text-ash">
                         No configuration parameters found matching filter.
                       </div>
                     ) : (
@@ -1602,10 +1602,10 @@ export default function App() {
                         return (
                           <div
                             key={key}
-                            className="p-3 rounded-[6px] bg-[#161718] border border-[#23252a] flex flex-wrap items-center justify-between gap-3"
+                            className="p-3 rounded-[6px] bg-obsidian border border-graphite flex flex-wrap items-center justify-between gap-3"
                           >
                             <div className="max-w-md">
-                              <span className="text-xs font-mono-telemetry font-medium text-[#ffffff]">{key}</span>
+                              <span className="text-xs font-mono-telemetry font-medium text-paper">{key}</span>
                             </div>
 
                             {isBoolean ? (
@@ -1619,8 +1619,8 @@ export default function App() {
                                 }}
                                 className={`px-3 py-1 rounded-[6px] text-xs font-mono-telemetry cursor-pointer border transition-colors ${
                                   value === 'true'
-                                    ? 'bg-[#27a644]/15 border-[#27a644]/40 text-[#27a644]'
-                                    : 'bg-white/[0.04] border-[#23252a] text-[#8a8f98]'
+                                    ? 'bg-pulse-green/15 border-[#27a644]/40 text-pulse-green'
+                                    : 'bg-white/[0.04] border-graphite text-fog'
                                 }`}
                               >
                                 {value === 'true' ? 'TRUE' : 'FALSE'}
@@ -1653,12 +1653,12 @@ export default function App() {
             <div className="space-y-6 max-w-4xl mx-auto">
               <div className="linear-card p-6 space-y-5">
                 <div>
-                  <h3 className="font-medium text-sm text-[#ffffff] mb-0.5">Telemetry Preferences</h3>
-                  <p className="text-xs text-[#8a8f98]">Configure telemetry frequency synchronized from Javalin</p>
+                  <h3 className="font-medium text-sm text-paper mb-0.5">Telemetry Preferences</h3>
+                  <p className="text-xs text-fog">Configure telemetry frequency synchronized from Javalin</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono-telemetry text-[#8a8f98] mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-mono-telemetry text-fog mb-2 uppercase tracking-wider">
                     Polling Cadence
                   </label>
                   <div className="grid grid-cols-4 gap-3">
@@ -1674,8 +1674,8 @@ export default function App() {
                         onClick={() => setPollingInterval(opt.rate)}
                         className={`p-3 rounded-[6px] border text-xs font-mono-telemetry cursor-pointer transition-all ${
                           pollingInterval === opt.rate
-                            ? 'bg-white/[0.08] border-[#ffffff] text-[#ffffff]'
-                            : 'bg-[#161718] border-[#23252a] text-[#8a8f98] hover:text-[#d0d6e0]'
+                            ? 'bg-white/[0.08] border-[#ffffff] text-paper'
+                            : 'bg-obsidian border-graphite text-fog hover:text-mist'
                         }`}
                       >
                         {opt.label}
@@ -1684,7 +1684,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[#23252a] flex items-center justify-between text-xs font-mono-telemetry text-[#8a8f98]">
+                <div className="pt-4 border-t border-graphite flex items-center justify-between text-xs font-mono-telemetry text-fog">
                   <span>OCULUS SYSTEM VERSION: 1.0.0-SNAPSHOT</span>
                   <span>EMBEDDED JAVALIN PORT: 8080</span>
                 </div>
@@ -1692,21 +1692,21 @@ export default function App() {
 
               {/* Linear Style Tokens Reference Card */}
               <div className="linear-card p-6 space-y-4">
-                <h3 className="font-medium text-sm text-[#ffffff]">Linear Design System Tokens</h3>
+                <h3 className="font-medium text-sm text-paper">Linear Design System Tokens</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono-telemetry">
-                  <div className="p-2.5 rounded-[6px] bg-[#08090a] border border-[#23252a]">
-                    <span className="text-[#8a8f98] block text-[10px]">VOID</span>
-                    <span className="text-[#ffffff]">#08090a</span>
+                  <div className="p-2.5 rounded-[6px] bg-void border border-graphite">
+                    <span className="text-fog block text-[10px]">VOID</span>
+                    <span className="text-paper">#08090a</span>
                   </div>
-                  <div className="p-2.5 rounded-[6px] bg-[#0f1011] border border-[#23252a]">
-                    <span className="text-[#8a8f98] block text-[10px]">CARBON</span>
-                    <span className="text-[#ffffff]">#0f1011</span>
+                  <div className="p-2.5 rounded-[6px] bg-carbon border border-graphite">
+                    <span className="text-fog block text-[10px]">CARBON</span>
+                    <span className="text-paper">#0f1011</span>
                   </div>
-                  <div className="p-2.5 rounded-[6px] bg-[#161718] border border-[#23252a]">
-                    <span className="text-[#8a8f98] block text-[10px]">OBSIDIAN</span>
-                    <span className="text-[#ffffff]">#161718</span>
+                  <div className="p-2.5 rounded-[6px] bg-obsidian border border-graphite">
+                    <span className="text-fog block text-[10px]">OBSIDIAN</span>
+                    <span className="text-paper">#161718</span>
                   </div>
-                  <div className="p-2.5 rounded-[6px] bg-[#e4f222] text-[#08090a]">
+                  <div className="p-2.5 rounded-[6px] bg-acid-lime text-[#08090a]">
                     <span className="block text-[10px] font-medium opacity-80">ACID LIME</span>
                     <span className="font-medium">#e4f222</span>
                   </div>

@@ -77,7 +77,7 @@ body {
 .font-mono-telemetry {
   font-family: var(--font-mono);
   font-feature-settings: "cv01" on, "ss03" on, "zero" on, "tnum" on;
-  letter-spacing: -0.013em;
+  letter-spacing: -0.011em;
 }
 
 /* Hairline borders & Linear card elevation */
@@ -86,6 +86,10 @@ body {
   border-radius: 12px;
   box-shadow: var(--shadow-subtle);
   border: 1px solid var(--color-graphite);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.linear-card:hover {
+  border-color: var(--color-smoke);
 }
 
 .linear-card-elevated {
@@ -93,6 +97,7 @@ body {
   border-radius: 12px;
   box-shadow: var(--shadow-subtle);
   border: 1px solid var(--color-graphite);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-hairline-border {
@@ -110,7 +115,7 @@ body {
   padding: 8px 14px;
   border: none;
   cursor: pointer;
-  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 0px;
 }
 
@@ -132,7 +137,7 @@ body {
   font-family: var(--font-sans);
   font-weight: 400;
   cursor: pointer;
-  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-btn-ghost:hover {
@@ -145,6 +150,30 @@ body {
   transform: scale(0.98);
 }
 
+/* Linear Secondary Button */
+.linear-btn-secondary {
+  background-color: var(--color-obsidian);
+  color: var(--color-mist);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border: 1px solid var(--color-graphite);
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-subtle);
+}
+
+.linear-btn-secondary:hover {
+  background-color: var(--color-smoke);
+  color: var(--color-paper);
+}
+
+.linear-btn-secondary:active {
+  transform: scale(0.98);
+}
+
+
 /* Linear Pill Button */
 .linear-btn-pill {
   background-color: rgba(255, 255, 255, 0.04);
@@ -156,7 +185,7 @@ body {
   font-size: 12px;
   font-weight: 400;
   cursor: pointer;
-  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-btn-pill:hover {
@@ -180,7 +209,7 @@ body {
   font-weight: 400;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-nav-link:hover {
