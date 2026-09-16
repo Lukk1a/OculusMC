@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 public class DashboardController {
 
     private final Oculus plugin;
+    private final List<WaypointEntry> waypoints = new CopyOnWriteArrayList<>();
 
     // In-memory circular log buffer
     private static final int MAX_LOG_ENTRIES = 300;
@@ -237,7 +238,7 @@ public class DashboardController {
             }
         }
         stats.put("playerList", playerList);
-
+        stats.put("waypoints", waypoints);
 
         ctx.json(stats);
     }
@@ -660,6 +661,55 @@ public class DashboardController {
         public String action;
 
         public PluginActionRequest() {}
+    }
+
+    public void getWaypoints(Context ctx) {
+        ctx.json(new ArrayList<>(waypoints));
+    }
+
+    public void postWaypoint(Context ctx) {
+        WaypointEntry wp = ctx.bodyAsClass(WaypointEntry.class);
+        if (wp == null || wp.name == null || wp.name.trim().isEmpty()) {
+            ctx.status(400).result("Invalid waypoint data");
+            return;
+        }
+        waypoints.removeIf(w -> w.name != null && w.name.equalsIgnoreCase(wp.name));
+        waypoints.add(wp);
+        appendManualLog("INFO", "Waypoint registered: " + wp.name + " (" + wp.world + " " + wp.x + ", " + wp.y + ", " + wp.z + ")");
+        Map<String, Object> res = new HashMap<>();
+        res.put("status", "success");
+        res.put("waypoint", wp);
+        ctx.json(res);
+    }
+
+    public void deleteWaypoint(Context ctx) {
+        String name = ctx.queryParam("name");
+        if (name != null) {
+            waypoints.removeIf(w -> w.name != null && w.name.equalsIgnoreCase(name));
+            appendManualLog("INFO", "Waypoint removed: " + name);
+        }
+        Map<String, Object> res = new HashMap<>();
+        res.put("status", "success");
+        ctx.json(res);
+    }
+
+    public static class WaypointEntry {
+        public String name;
+        public String world;
+        public double x;
+        public double y;
+        public double z;
+        public String color;
+
+        public WaypointEntry() {}
+        public WaypointEntry(String name, String world, double x, double y, double z, String color) {
+            this.name = name;
+            this.world = world;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.color = color;
+        }
     }
 
     public static class ServerActionRequest {

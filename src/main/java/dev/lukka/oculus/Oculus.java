@@ -62,6 +62,9 @@ public class Oculus extends JavaPlugin {
             app.post("/api/command", controller::executeCommand);
             app.get("/api/map/overview", controller::getMapOverview);
             app.get("/api/map/meta", controller::getMapMeta);
+            app.get("/api/waypoints", controller::getWaypoints);
+            app.post("/api/waypoint", controller::postWaypoint);
+            app.delete("/api/waypoint", controller::deleteWaypoint);
             
         } finally {
             Thread.currentThread().setContextClassLoader(classLoader);
