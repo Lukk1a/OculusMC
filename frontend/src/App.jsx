@@ -996,18 +996,7 @@ export default function App() {
                       Direct Anvil MCA Chunk Engine · 1024×1024 Blocks
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {COORD_PRESETS && COORD_PRESETS.map((p) => (
-                      <button
-                        key={p.name}
-                        type="button"
-                        onClick={() => handleApplyPreset(p)}
-                        className="px-2 py-1 text-xs rounded-[6px] bg-[#161718] hover:bg-[#23252a] border border-[#23252a] text-[#8a8f98] hover:text-[#ffffff] font-mono-telemetry cursor-pointer transition-colors"
-                      >
-                        {p.name}
-                      </button>
-                    ))}
-                  </div>
+
                 </div>
                 <div className="flex-1 w-full rounded-[12px] overflow-hidden border border-[#23252a]">
                   <MinecraftMap
