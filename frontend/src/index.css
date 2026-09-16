@@ -1,0 +1,245 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void: #08090a;
+  --color-carbon: #0f1011;
+  --color-obsidian: #161718;
+  --color-graphite: #23252a;
+  --color-smoke: #383b3f;
+  --color-ash: #62666d;
+  --color-fog: #8a8f98;
+  --color-mist: #d0d6e0;
+  --color-bone: #e5e5e6;
+  --color-paper: #ffffff;
+  --color-acid-lime: #e4f222;
+  --color-pulse-green: #27a644;
+  --color-coral-red: #eb5757;
+  --color-signal-teal: #02b8cc;
+  --color-iris-violet: #6366f1;
+  --color-lavender: #8b5cf6;
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Berkeley Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --color-void: #08090a;
+  --color-carbon: #0f1011;
+  --color-obsidian: #161718;
+  --color-graphite: #23252a;
+  --color-smoke: #383b3f;
+  --color-ash: #62666d;
+  --color-fog: #8a8f98;
+  --color-mist: #d0d6e0;
+  --color-bone: #e5e5e6;
+  --color-paper: #ffffff;
+  --color-acid-lime: #e4f222;
+  --color-pulse-green: #27a644;
+  --color-coral-red: #eb5757;
+  --color-signal-teal: #02b8cc;
+  --color-iris-violet: #6366f1;
+  --color-lavender: #8b5cf6;
+
+  --shadow-subtle: rgb(35, 37, 42) 0px 0px 0px 1px inset;
+  --shadow-sm: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-feature-settings: "cv01" on, "ss03" on, "zero" on;
+  background-color: var(--color-void);
+  color: var(--color-mist);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Linear Typography Tracking Hierarchy */
+.tracking-display {
+  letter-spacing: -0.022em;
+}
+
+.tracking-subheading {
+  letter-spacing: -0.012em;
+}
+
+.tracking-body {
+  letter-spacing: -0.011em;
+}
+
+.font-mono-telemetry {
+  font-family: var(--font-mono);
+  font-feature-settings: "cv01" on, "ss03" on, "zero" on, "tnum" on;
+  letter-spacing: -0.013em;
+}
+
+/* Hairline borders & Linear card elevation */
+.linear-card {
+  background-color: var(--color-carbon);
+  border-radius: 12px;
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--color-graphite);
+}
+
+.linear-card-elevated {
+  background-color: var(--color-obsidian);
+  border-radius: 12px;
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--color-graphite);
+}
+
+.linear-hairline-border {
+  border: 1px solid var(--color-graphite);
+}
+
+/* Linear Acid Lime Primary Action Button (Sole chromatic button in system) */
+.linear-btn-primary {
+  background-color: var(--color-acid-lime);
+  color: var(--color-void);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-weight: 510;
+  letter-spacing: -0.011em;
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px 0px;
+}
+
+.linear-btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.linear-btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Linear Ghost / Outline Button */
+.linear-btn-ghost {
+  background-color: transparent;
+  border: 1px solid var(--color-graphite);
+  color: var(--color-mist);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.linear-btn-ghost:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--color-paper);
+  border-color: var(--color-smoke);
+}
+
+.linear-btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* Linear Pill Button */
+.linear-btn-pill {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--color-mist);
+  border: 1px solid var(--color-graphite);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.linear-btn-pill:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-paper);
+  border-color: var(--color-smoke);
+}
+
+.linear-btn-pill:active {
+  transform: scale(0.98);
+}
+
+/* Linear Nav Text Item */
+.linear-nav-link {
+  background: transparent;
+  color: var(--color-fog);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.linear-nav-link:hover {
+  color: var(--color-mist);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.linear-nav-link.active {
+  color: var(--color-paper);
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: var(--color-graphite);
+}
+
+/* Linear Badge / Status Tag */
+.linear-badge {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--color-fog);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  border: 1px solid var(--color-graphite);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Linear Input Field */
+.linear-input {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-graphite);
+  color: var(--color-mist);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  letter-spacing: -0.013em;
+  outline: none;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.linear-input:focus {
+  border-color: var(--color-smoke);
+  color: var(--color-paper);
+  box-shadow: 0 0 0 1px var(--color-smoke);
+}
+
+/* Custom Tactical Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-graphite);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-smoke);
+}

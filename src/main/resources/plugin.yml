@@ -1,0 +1,7 @@
+main: dev.lukka.oculus.Oculus
+version: '${version}'
+name: Oculus
+author: Lukk1a
+description: A Minecraft development project.
+api-version: '1.21'
+

@@ -1,0 +1,39 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Node / Vite frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+mcp-server*.log
+
+# Built output (managed by build pipeline)
+src/main/resources/www/assets/
+
+# Temp / scratch
+*.py
+c:/temp/
+
+# Agent config (local only)
+.agents/
+
+# Secrets
+*.env
+.env.local
