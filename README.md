@@ -11,6 +11,8 @@
 
 Oculus is a next-generation control panel designed as a drop-in Bukkit plugin. It embeds a lightweight Javalin web server directly into the Minecraft server process, serving a statically exported Next.js (App Router) dashboard. This eliminates the need for external panel infrastructure, daemon processes, or databases while providing real-time telemetry and management capabilities.
 
+![Dashboard Overview](.github/assets/overview.png)
+
 ## Architecture
 
 * **Backend (`plugin/`)**: A Bukkit/Paper plugin running an embedded Javalin web server on a background thread. All interactions with the Minecraft world state are strictly marshalled to the main server thread to prevent concurrency issues and ensure safety.
