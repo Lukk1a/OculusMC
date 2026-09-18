@@ -1,0 +1,52 @@
+# ==============================================================================
+# Oculus Server Configuration
+# ==============================================================================
+
+http:
+  # IP interface to bind to ("0.0.0.0" for all interfaces, "127.0.0.1" for local-only/behind reverse proxy)
+  bind: "0.0.0.0"
+  
+  # Port for the web interface & API server
+  port: 8080
+
+  # Trusted reverse proxies allowed to set X-Forwarded-For and X-Forwarded-Proto headers.
+  # Subnets in CIDR notation (e.g., ["127.0.0.1/32", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]).
+  # Required when running behind Nginx, Caddy, Traefik, Cloudflare Tunnel, etc.
+  trusted-proxies:
+    # - "127.0.0.1/32"
+    # - "192.168.1.0/24"
+
+  # Allowed CORS origins / Host header allowlist for WebSocket connections.
+  # Leave empty [] to allow all valid origin headers, or specify exact URLs (e.g., ["https://oculus.example.com"])
+  allowlist: []
+
+  # Public canonical origin URL for HTTPS enforcement and OAuth/WebSockets redirect checks (e.g. "https://oculus.example.com")
+  public-origin: ""
+
+  # Cookie Secure attribute policy:
+  #   - "auto"   (Default: automatically sets Secure flag when request arrives over HTTPS / X-Forwarded-Proto: https)
+  #   - "true"   (Enforces Secure attribute on cookies always - requires HTTPS)
+  #   - "false"  (Disables Secure attribute on cookies - HTTP local development)
+  cookie-secure: auto
+
+auth:
+  access-ttl-seconds: 900       # Access token validity duration (default: 15 minutes)
+  refresh-ttl-days: 7           # Refresh token validity duration (default: 7 days)
+  preauth-ttl-seconds: 300      # 2FA PreAuth session duration (default: 5 minutes)
+  lockout-attempts: 8           # Failed password attempts before temporary IP/user lockout
+  lockout-seconds: 300          # Lockout duration in seconds
+  totp-issuer: Oculus           # Issuer name shown in Authenticator app
+
+geoip:
+  mmdb-path: ""                 # Optional path to GeoLite2-City.mmdb for IP geolocation
+
+backups:
+  dir: backups                  # Directory where backup archives (.zip) are stored
+  retain: 7                     # Maximum number of backups to keep before auto-purging
+
+files:
+  max-upload-bytes: 52428800    # Maximum file upload size in bytes (default: 50 MB)
+
+console:
+  history: 2000                 # Maximum console log entries retained in memory buffer
+

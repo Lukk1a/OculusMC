@@ -1,1 +1,2 @@
-rootProject.name = "Oculus"
+rootProject.name = 'Oculus'
+include 'plugin'

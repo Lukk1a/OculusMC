@@ -1,0 +1,34 @@
+version: 2
+updates:
+  # Maintain dependencies for npm (Next.js web frontend)
+  - package-ecosystem: "npm"
+    directory: "/web"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(web)"
+    labels:
+      - "dependencies"
+      - "web"
+
+  # Maintain dependencies for Gradle (Java Plugin)
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(plugin)"
+    labels:
+      - "dependencies"
+      - "plugin"
+
+  # Maintain GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(ci)"
+    labels:
+      - "dependencies"
+      - "ci"

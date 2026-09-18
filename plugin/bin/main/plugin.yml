@@ -1,0 +1,14 @@
+main: dev.lukka.oculus.Oculus
+version: '${version}'
+name: Oculus
+author: Lukk1a
+description: Minecraft server operations dashboard.
+api-version: '1.21'
+softdepend:
+  - Apollo
+  - Vault
+  - LuckPerms
+  - spark
+  - squaremap
+  - pl3xmap
+  - dynmap

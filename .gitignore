@@ -5,10 +5,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# Node / Vite frontend
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
+# Node / Next.js frontend
+web/node_modules/
+web/.next/
+web/out/
+web/build/
 
 # IDE
 .idea/
@@ -37,3 +38,6 @@ c:/temp/
 # Secrets
 *.env
 .env.local
+
+# Test Server
+server/
