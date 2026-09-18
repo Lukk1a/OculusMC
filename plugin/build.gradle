@@ -83,6 +83,7 @@ task npmInstall(type: Exec) {
 }
 
 task npmBuild(type: Exec) {
+    dependsOn npmInstall
     group = 'build'
     description = 'Build Next.js export'
     workingDir = file("${rootDir}/web")
