@@ -123,13 +123,15 @@ public class JavalinServer {
         Thread.currentThread().setContextClassLoader(plugin.getClass().getClassLoader());
         try {
             app = Javalin.create(cfg -> {
-                cfg.staticFiles.add(sf -> {
-                    sf.hostedPath = "/";
-                    sf.directory  = "/www";
-                    sf.location   = Location.CLASSPATH;
-                    sf.headers.put("Cache-Control", "no-cache, no-store, must-revalidate");
-                    sf.headers.put("Pragma", "no-cache");
-                });
+                if (getClass().getResource("/www") != null) {
+                    cfg.staticFiles.add(sf -> {
+                        sf.hostedPath = "/";
+                        sf.directory  = "/www";
+                        sf.location   = Location.CLASSPATH;
+                        sf.headers.put("Cache-Control", "no-cache, no-store, must-revalidate");
+                        sf.headers.put("Pragma", "no-cache");
+                    });
+                }
             }).start(bind, port);
 
             app.exception(UnauthorizedResponse.class, (e, ctx) -> {

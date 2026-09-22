@@ -69,6 +69,7 @@ tasks.named('jar') {
 tasks.named('shadowJar') {
     archiveClassifier.set('')
     mergeServiceFiles()
+    exclude 'www/**'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 

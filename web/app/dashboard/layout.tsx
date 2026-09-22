@@ -113,7 +113,6 @@ export default function DashboardLayout({
     { label: 'Worlds',    href: '/dashboard/worlds',  icon: Globe,           requiredNode: 'dashboard.worlds.edit' },
     { label: 'Backups',   href: '/dashboard/backups', icon: Database,        requiredNode: 'dashboard.backups.manage' },
     { label: 'Packages',  href: '/dashboard/packages',icon: FileText,        requiredNode: 'dashboard.packages.install' },
-    { label: 'Apollo',    href: '/dashboard/apollo',  icon: Server,          requiredNode: 'dashboard.apollo.read' },
   ];
 
   const navItems = allNavItems.filter(item => hasNode(item.requiredNode));

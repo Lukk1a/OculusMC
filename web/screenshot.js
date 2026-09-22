@@ -7,8 +7,16 @@ const { chromium } = require('playwright');
     deviceScaleFactor: 2,
     colorScheme: 'dark'
   });
-  await page.goto('http://localhost:3000/dashboard', { waitUntil: 'networkidle' });
-  await page.waitForTimeout(2000); // wait for animations
-  await page.screenshot({ path: '../.github/assets/overview.png', fullPage: true });
+  
+  // Login Page (2FA mocked)
+  await page.goto('http://localhost:3000/login', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1000);
+  await page.screenshot({ path: '../.github/assets/2fa.png', fullPage: true });
+
+  // Console Page
+  await page.goto('http://localhost:3000/dashboard/console', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  await page.screenshot({ path: '../.github/assets/console.png', fullPage: true });
+  
   await browser.close();
 })();
