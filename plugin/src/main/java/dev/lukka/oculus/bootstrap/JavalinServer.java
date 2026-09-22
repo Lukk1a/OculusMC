@@ -132,7 +132,7 @@ public class JavalinServer {
                         sf.headers.put("Pragma", "no-cache");
                     });
                 }
-            }).start(bind, port);
+            });
 
             app.exception(UnauthorizedResponse.class, (e, ctx) -> {
                 ctx.status(401);
@@ -149,6 +149,7 @@ public class JavalinServer {
 
             setupFilters();
             registerRoutes();
+            app.start(bind, port);
 
         } finally {
             Thread.currentThread().setContextClassLoader(previous);
@@ -232,13 +233,21 @@ public class JavalinServer {
                 return; // Public endpoints
             }
 
+            String token = null;
             String authHeader = ctx.header("Authorization");
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
+            } else if (path.equals("/api/map/overview")) {
+                String qToken = ctx.queryParam("token");
+                if (qToken != null && !qToken.isBlank()) {
+                    token = qToken;
+                }
+            }
+
+            if (token == null) {
                 ctx.status(401).json(Map.of("error", "unauthorized"));
                 throw new UnauthorizedResponse("Missing or invalid token");
             }
-
-            String token = authHeader.substring(7);
             Principal principal = jwtService.parsePrincipal(token);
             if (principal == null) {
                 ctx.status(401).json(Map.of("error", "invalid_token"));

@@ -17,6 +17,7 @@ import {
   MapPin,
   Trash2
 } from 'lucide-react';
+import { getFreshToken } from '@/lib/api';
 
 export interface PlayerCoord {
   name: string;
@@ -167,23 +168,68 @@ export default function MinecraftMap({
   // Fetch Actual Minecraft Map from Server
   useEffect(() => {
     let isMounted = true;
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = `/api/map/overview?world=${dimension}&t=${refreshKey}`;
-    img.onload = () => {
-      if (isMounted) {
-        realMapImgRef.current = img;
-        setRealMapLoaded(true);
-        setRealMapLoading(false);
+    let currentObjectUrl: string | null = null;
+
+    const loadRealWorldMap = async () => {
+      setRealMapLoading(true);
+      try {
+        const token = await getFreshToken();
+        const headers: Record<string, string> = {};
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        const queryParams = new URLSearchParams({
+          world: dimension,
+          t: String(refreshKey),
+        });
+        if (token) {
+          queryParams.set('token', token);
+        }
+
+        const res = await fetch(`/api/map/overview?${queryParams.toString()}`, {
+          headers,
+          credentials: 'same-origin',
+        });
+
+        if (!res.ok) {
+          throw new Error(`Failed to load map: ${res.status} ${res.statusText}`);
+        }
+
+        const blob = await res.blob();
+        if (!isMounted) return;
+
+        const url = URL.createObjectURL(blob);
+        currentObjectUrl = url;
+
+        const img = new Image();
+        img.onload = () => {
+          if (isMounted) {
+            realMapImgRef.current = img;
+            setRealMapLoaded(true);
+            setRealMapLoading(false);
+          }
+        };
+        img.onerror = () => {
+          if (isMounted) {
+            setRealMapLoading(false);
+          }
+        };
+        img.src = url;
+      } catch (err) {
+        console.error('Map overview load error:', err);
+        if (isMounted) {
+          setRealMapLoading(false);
+        }
       }
     };
-    img.onerror = () => {
-      if (isMounted) {
-        setRealMapLoading(false);
-      }
-    };
+
+    loadRealWorldMap();
+
     return () => {
       isMounted = false;
+      if (currentObjectUrl) {
+        URL.revokeObjectURL(currentObjectUrl);
+      }
     };
   }, [dimension, refreshKey]);
 
@@ -433,30 +479,59 @@ export default function MinecraftMap({
       const minWorldZ = camera.z - height / (2 * zoom);
       const maxWorldZ = camera.z + height / (2 * zoom);
 
-      // 2. Real MCA Chunk Engine Image Layer
-      if (layers.terrain && realMapLoaded && realMapImgRef.current) {
-        const img = realMapImgRef.current;
-        const imgOriginX = -512;
-        const imgOriginZ = -512;
-        const imgWidthBlocks = 1024;
-        const imgHeightBlocks = 1024;
+      // 2. Real MCA Chunk Engine Image Layer & Tactical Topography Fallback
+      if (layers.terrain) {
+        // Procedural tactical radar terrain cells for backdrop and areas outside core sector
+        const step = Math.max(16, Math.floor(32 / zoom));
+        const startX = Math.floor(minWorldX / step) * step;
+        const endX = Math.ceil(maxWorldX / step) * step;
+        const startZ = Math.floor(minWorldZ / step) * step;
+        const endZ = Math.ceil(maxWorldZ / step) * step;
 
-        const screenLeft = width / 2 + (imgOriginX - camera.x) * zoom;
-        const screenTop = height / 2 + (imgOriginZ - camera.z) * zoom;
-        const screenWidth = imgWidthBlocks * zoom;
-        const screenHeight = imgHeightBlocks * zoom;
+        for (let wx = startX; wx < endX; wx += step) {
+          for (let wz = startZ; wz < endZ; wz += step) {
+            const inMca = realMapLoaded && wx >= -512 && wx < 512 && wz >= -512 && wz < 512;
+            if (inMca) continue;
 
-        ctx.imageSmoothingEnabled = zoom < 1.0;
-        ctx.drawImage(img, screenLeft, screenTop, screenWidth, screenHeight);
+            const biome = getEstimatedBiome(wx, wz, dimension);
+            let color = '#0f140e';
+            if (dimension === 'world_nether') color = '#1a0b0b';
+            else if (dimension === 'world_the_end') color = '#120d1c';
+            else if (biome.includes('River') || biome.includes('Ocean')) color = '#0a1624';
+            else if (biome.includes('Hills')) color = '#141a12';
+            else if (biome.includes('Forest')) color = '#0d1f10';
 
-        // Highlight MCA boundary border
-        ctx.strokeStyle = '#27a644';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(screenLeft, screenTop, screenWidth, screenHeight);
+            const sp = worldToScreen(wx, wz);
+            ctx.fillStyle = color;
+            ctx.fillRect(sp.x, sp.y, step * zoom, step * zoom);
+          }
+        }
 
-        ctx.font = '9px "JetBrains Mono", monospace';
-        ctx.fillStyle = '#27a644';
-        ctx.fillText('ANVIL REGION MCA (1024×1024b)', screenLeft + 6, screenTop + 14);
+        // Draw Real MCA Chunk Engine Image Layer
+        if (realMapLoaded && realMapImgRef.current) {
+          const img = realMapImgRef.current;
+          const imgOriginX = -512;
+          const imgOriginZ = -512;
+          const imgWidthBlocks = 1024;
+          const imgHeightBlocks = 1024;
+
+          const screenLeft = width / 2 + (imgOriginX - camera.x) * zoom;
+          const screenTop = height / 2 + (imgOriginZ - camera.z) * zoom;
+          const screenWidth = imgWidthBlocks * zoom;
+          const screenHeight = imgHeightBlocks * zoom;
+
+          ctx.imageSmoothingEnabled = zoom < 1.0;
+          ctx.drawImage(img, screenLeft, screenTop, screenWidth, screenHeight);
+
+          // Highlight MCA boundary border
+          ctx.strokeStyle = '#27a644';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(screenLeft, screenTop, screenWidth, screenHeight);
+
+          ctx.font = '9px "JetBrains Mono", monospace';
+          ctx.fillStyle = '#27a644';
+          ctx.fillText('ANVIL REGION MCA (1024×1024b)', screenLeft + 6, screenTop + 14);
+        }
       }
 
       // 3. Grid Lines & Sector Visualizers
@@ -907,6 +982,13 @@ export default function MinecraftMap({
 
       {/* Canvas Viewport */}
       <div className="relative flex-1 min-h-0 w-full overflow-hidden cursor-crosshair">
+        {realMapLoading && (
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 px-3 py-1.5 rounded-full bg-[#0f1011]/90 backdrop-blur-md border border-[#23252a] text-xs font-mono text-[#e4f222] flex items-center gap-2 shadow-2xl pointer-events-none">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#e4f222]" />
+            <span>Synchronizing Anvil MCA Chunks...</span>
+          </div>
+        )}
+
         <canvas
           ref={canvasRef}
           onMouseDown={handleMouseDown}

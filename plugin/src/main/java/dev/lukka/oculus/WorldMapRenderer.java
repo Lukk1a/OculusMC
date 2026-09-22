@@ -158,106 +158,108 @@ public class WorldMapRenderer {
         try (RandomAccessFile raf = new RandomAccessFile(mcaFile, "r")) {
             for (int cz = 0; cz < 32; cz++) {
                 for (int cx = 0; cx < 32; cx++) {
-                    int idx = 4 * (cx + cz * 32);
-                    raf.seek(idx);
-                    int offset = (raf.read() << 16) | (raf.read() << 8) | raf.read();
-                    if (offset == 0) continue;
+                    try {
+                        int idx = 4 * (cx + cz * 32);
+                        raf.seek(idx);
+                        int offset = (raf.read() << 16) | (raf.read() << 8) | raf.read();
+                        if (offset == 0) continue;
 
-                    raf.seek(offset * 4096L);
-                    int len = raf.readInt();
-                    raf.readByte(); // skip compression type byte (2)
-                    byte[] buf = new byte[len - 1];
-                    raf.readFully(buf);
+                        raf.seek(offset * 4096L);
+                        int len = raf.readInt();
+                        raf.readByte(); // skip compression type byte (2)
+                        byte[] buf = new byte[len - 1];
+                        raf.readFully(buf);
 
-                    DataInputStream dis = new DataInputStream(new InflaterInputStream(new ByteArrayInputStream(buf)));
-                    dis.readByte();
-                    dis.readUTF();
-                    Map<String, Object> root = (Map<String, Object>) readTag((byte) 10, dis);
-                    Map<String, Object> heightmaps = (Map<String, Object>) root.get("Heightmaps");
-                    if (heightmaps == null) continue;
+                        DataInputStream dis = new DataInputStream(new InflaterInputStream(new ByteArrayInputStream(buf)));
+                        dis.readByte();
+                        dis.readUTF();
+                        Map<String, Object> root = (Map<String, Object>) readTag((byte) 10, dis);
+                        Map<String, Object> heightmaps = (Map<String, Object>) root.get("Heightmaps");
+                        if (heightmaps == null) continue;
 
-                    long[] ws = (long[]) heightmaps.get("WORLD_SURFACE");
-                    if (ws == null) {
-                        ws = (long[]) heightmaps.get("MOTION_BLOCKING");
-                    }
-                    if (ws == null) continue;
-
-                    int[] heights = new int[256];
-                    int valIdx = 0;
-                    for (long val : ws) {
-                        for (int i = 0; i < 7 && valIdx < 256; i++) {
-                            heights[valIdx++] = (int) ((val >>> (i * 9)) & 0x1FF) - 64;
+                        long[] ws = (long[]) heightmaps.get("WORLD_SURFACE");
+                        if (ws == null) {
+                            ws = (long[]) heightmaps.get("MOTION_BLOCKING");
                         }
-                    }
+                        if (ws == null) continue;
 
-                    Map<Integer, Map<String, Object>> sectionMap = new HashMap<>();
-                    List<Object> sections = (List<Object>) root.get("sections");
-                    if (sections != null) {
-                        for (Object o : sections) {
-                            Map<String, Object> s = (Map<String, Object>) o;
-                            Object yObj = s.get("Y");
-                            if (yObj instanceof Number) {
-                                sectionMap.put(((Number) yObj).intValue(), s);
+                        int[] heights = new int[256];
+                        int valIdx = 0;
+                        for (long val : ws) {
+                            for (int i = 0; i < 7 && valIdx < 256; i++) {
+                                heights[valIdx++] = (int) ((val >>> (i * 9)) & 0x1FF) - 64;
                             }
                         }
-                    }
 
-                    for (int bz = 0; bz < 16; bz++) {
-                        for (int bx = 0; bx < 16; bx++) {
-                            int h = heights[bz * 16 + bx];
-                            int secY = (h >> 4);
-                            String blockName = "minecraft:grass_block";
-                            Map<String, Object> sec = sectionMap.get(secY);
-                            if (sec != null) {
-                                Map<String, Object> bs = (Map<String, Object>) sec.get("block_states");
-                                if (bs != null) {
-                                    List<Object> palette = (List<Object>) bs.get("palette");
-                                    if (palette != null && !palette.isEmpty()) {
-                                        if (palette.size() == 1) {
-                                            blockName = (String) ((Map<String, Object>) palette.get(0)).get("Name");
-                                        } else {
-                                            long[] data = (long[]) bs.get("data");
-                                            if (data != null) {
-                                                int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
-                                                int blockIdx = (h & 15) * 256 + bz * 16 + bx;
-                                                int perLong = 64 / bits;
-                                                int longIdx = blockIdx / perLong;
-                                                int offsetInLong = (blockIdx % perLong) * bits;
-                                                if (longIdx < data.length) {
-                                                    int palIdx = (int) ((data[longIdx] >>> offsetInLong) & ((1 << bits) - 1));
-                                                    if (palIdx < palette.size()) {
-                                                        blockName = (String) ((Map<String, Object>) palette.get(palIdx)).get("Name");
+                        Map<Integer, Map<String, Object>> sectionMap = new HashMap<>();
+                        List<Object> sections = (List<Object>) root.get("sections");
+                        if (sections != null) {
+                            for (Object o : sections) {
+                                Map<String, Object> s = (Map<String, Object>) o;
+                                Object yObj = s.get("Y");
+                                if (yObj instanceof Number) {
+                                    sectionMap.put(((Number) yObj).intValue(), s);
+                                }
+                            }
+                        }
+
+                        for (int bz = 0; bz < 16; bz++) {
+                            for (int bx = 0; bx < 16; bx++) {
+                                int h = heights[bz * 16 + bx];
+                                int secY = (h >> 4);
+                                String blockName = "minecraft:grass_block";
+                                Map<String, Object> sec = sectionMap.get(secY);
+                                if (sec != null) {
+                                    Map<String, Object> bs = (Map<String, Object>) sec.get("block_states");
+                                    if (bs != null) {
+                                        List<Object> palette = (List<Object>) bs.get("palette");
+                                        if (palette != null && !palette.isEmpty()) {
+                                            if (palette.size() == 1) {
+                                                blockName = (String) ((Map<String, Object>) palette.get(0)).get("Name");
+                                            } else {
+                                                long[] data = (long[]) bs.get("data");
+                                                if (data != null) {
+                                                    int bits = Math.max(4, 32 - Integer.numberOfLeadingZeros(palette.size() - 1));
+                                                    int blockIdx = (h & 15) * 256 + bz * 16 + bx;
+                                                    int perLong = 64 / bits;
+                                                    int longIdx = blockIdx / perLong;
+                                                    int offsetInLong = (blockIdx % perLong) * bits;
+                                                    if (longIdx < data.length) {
+                                                        int palIdx = (int) ((data[longIdx] >>> offsetInLong) & ((1 << bits) - 1));
+                                                        if (palIdx < palette.size()) {
+                                                            blockName = (String) ((Map<String, Object>) palette.get(palIdx)).get("Name");
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
 
-                            int color = getBlockColor(blockName, dimension);
+                                int color = getBlockColor(blockName, dimension);
 
-                            // Topographic hillshading
-                            int prevH = bz > 0 ? heights[(bz - 1) * 16 + bx] : h;
-                            if (h > prevH) {
-                                int r = Math.min(255, ((color >> 16) & 0xFF) + 18);
-                                int g = Math.min(255, ((color >> 8) & 0xFF) + 18);
-                                int b = Math.min(255, (color & 0xFF) + 18);
-                                color = (r << 16) | (g << 8) | b;
-                            } else if (h < prevH) {
-                                int r = Math.max(0, ((color >> 16) & 0xFF) - 18);
-                                int g = Math.max(0, ((color >> 8) & 0xFF) - 18);
-                                int b = Math.max(0, (color & 0xFF) - 18);
-                                color = (r << 16) | (g << 8) | b;
-                            }
+                                // Topographic hillshading
+                                int prevH = bz > 0 ? heights[(bz - 1) * 16 + bx] : h;
+                                if (h > prevH) {
+                                    int r = Math.min(255, ((color >> 16) & 0xFF) + 18);
+                                    int g = Math.min(255, ((color >> 8) & 0xFF) + 18);
+                                    int b = Math.min(255, (color & 0xFF) + 18);
+                                    color = (r << 16) | (g << 8) | b;
+                                } else if (h < prevH) {
+                                    int r = Math.max(0, ((color >> 16) & 0xFF) - 18);
+                                    int g = Math.max(0, ((color >> 8) & 0xFF) - 18);
+                                    int b = Math.max(0, (color & 0xFF) - 18);
+                                    color = (r << 16) | (g << 8) | b;
+                                }
 
-                            int px = imgOffsetX + cx * 16 + bx;
-                            int py = imgOffsetY + cz * 16 + bz;
-                            if (px >= 0 && px < img.getWidth() && py >= 0 && py < img.getHeight()) {
-                                img.setRGB(px, py, color);
+                                int px = imgOffsetX + cx * 16 + bx;
+                                int py = imgOffsetY + cz * 16 + bz;
+                                if (px >= 0 && px < img.getWidth() && py >= 0 && py < img.getHeight()) {
+                                    img.setRGB(px, py, color);
+                                }
                             }
                         }
-                    }
+                    } catch (Throwable ignoredChunk) {}
                 }
             }
         } catch (Throwable ignored) {}
